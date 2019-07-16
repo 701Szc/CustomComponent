@@ -1,4 +1,6 @@
 package com.example.CustomComponentTest.view.fragment.home;
 
-public class MineFragment {
+import com.example.CustomComponentTest.view.fragment.BaseFragment;
+
+public class MineFragment extends BaseFragment {
 }
