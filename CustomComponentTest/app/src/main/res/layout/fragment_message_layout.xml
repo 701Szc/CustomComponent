@@ -152,7 +152,8 @@
             android:id="@+id/imooc_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/bg_message_imooc" />
+            android:src="@drawable/bg_message_imooc"
+            />
 
         <TextView
             android:id="@+id/tip_view"
