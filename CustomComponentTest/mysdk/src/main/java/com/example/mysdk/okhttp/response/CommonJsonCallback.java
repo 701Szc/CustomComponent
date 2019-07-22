@@ -3,11 +3,12 @@ package com.example.mysdk.okhttp.response;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.youdu.adutil.ResponseEntityToModule;
-import com.youdu.okhttp.exception.OkHttpException;
-import com.youdu.okhttp.listener.DisposeDataHandle;
-import com.youdu.okhttp.listener.DisposeDataListener;
-import com.youdu.okhttp.listener.DisposeHandleCookieListener;
+
+import com.example.mysdk.adutil.ResponseEntityToModule;
+import com.example.mysdk.okhttp.exception.OkHttpException;
+import com.example.mysdk.okhttp.listener.DisposeDataHandle;
+import com.example.mysdk.okhttp.listener.DisposeDataListener;
+import com.example.mysdk.okhttp.listener.DisposeHandleCookieListener;
 
 import org.json.JSONObject;
 

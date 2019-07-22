@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'realm-android'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
@@ -34,3 +34,20 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.3.0' //okttp依赖
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
+def SDK_BASENAME = "MySdk";
+def SDK_VERSION = '_V1.0';
+def sdkDestinationPath = "build";
+def zipFile = file('build/intermediates/bundles/default/classes.jar')
+
+task deleteBuild(type: Delete){
+    delete sdkDestinationPath + SDK_BASENAME + SDK_VERSION + ".jar"
+}
+
+task makeJar(type: Jar){
+    from zipTree(zipFile)
+    from fileTree(dir: 'src/main',includes: ['assets/**'])
+    baseName = SDK_BASENAME + SDK_VERSION
+    destinationDir = file(sdkDestinationPath)
+}
+
+makeJar.dependsOn(deleteBuild, build)

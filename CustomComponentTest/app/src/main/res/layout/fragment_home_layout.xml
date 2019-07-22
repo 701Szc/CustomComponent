@@ -42,7 +42,7 @@
             android:textSize="16sp"
         />
     </RelativeLayout>
-
+<!--加载数据时的loadingView-->
     <ImageView
         android:id="@+id/loading_view"
         android:layout_width="match_parent"
@@ -51,6 +51,7 @@
         android:scaleType="center"
         android:src="@drawable/loading_data_anim"
     />
+    <!--展示首页数据的列表-->
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

@@ -72,8 +72,8 @@ public class ImageLoaderManager {
 * */
     private DisplayImageOptions getDefaultOptions() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.drawable.page_loading_01)//图片为空的时候  显示R.drawable.page_loading_01
-                .showImageOnFail(R.drawable.page_loading_01)//图片下载失败的时候
+                .showImageForEmptyUri(R.drawable.xadsdk_ad_loading)//图片为空的时候  显示R.drawable.page_loading_01
+                .showImageOnFail(R.drawable.xadsdk_ad_loading)//图片下载失败的时候
                 .cacheInMemory(true) //设置图片可以缓存在内存
                 .cacheOnDisk(true) //设置图片可以缓存在硬盘
                 .bitmapConfig(Bitmap.Config.RGB_565) // 使用的解码类型

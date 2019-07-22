@@ -1,9 +1,9 @@
 package com.example.mysdk.okhttp;
 
-import com.youdu.module.AdInstance;
-import com.youdu.okhttp.listener.DisposeDataHandle;
-import com.youdu.okhttp.listener.DisposeDataListener;
-import com.youdu.okhttp.request.CommonRequest;
+import com.example.mysdk.module.AdInstance;
+import com.example.mysdk.okhttp.listener.DisposeDataHandle;
+import com.example.mysdk.okhttp.listener.DisposeDataListener;
+import com.example.mysdk.okhttp.request.CommonRequest;
 
 /**
  * Created by renzhiqiang on 16/10/27.
