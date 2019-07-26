@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * @author qndroid
  */
 public class Utils {
-
+//    设置图片之间的间距
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale);

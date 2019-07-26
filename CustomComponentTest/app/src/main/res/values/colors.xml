@@ -1,6 +1,7 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <color name="color_333333">#333333</color>
+    <!--分割线的颜色-->
     <color name="color_cccccc">#cccccc</color>
     <color name="color_fed952">#fed952</color>
     <color name="color_666666">#666666</color>
