@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -19,10 +18,8 @@ import com.example.CustomComponentTest.adapter.CourseAdapter;
 import com.example.CustomComponentTest.module.recommand.BaseRecommandModel;
 import com.example.CustomComponentTest.network.http.RequestCenter;
 import com.example.CustomComponentTest.view.fragment.BaseFragment;
-import com.example.mysdk.okhttp.CommonOkHttpClient;
+import com.example.CustomComponentTest.view.home.HomeHeaderLayout;
 import com.example.mysdk.okhttp.listener.DisposeDataListener;
-
-import org.w3c.dom.Text;
 
 import static android.content.ContentValues.TAG;
 
@@ -42,6 +39,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     * */
     private CourseAdapter mAdapter;
     private BaseRecommandModel mRecommandData;
+
+    private static int i = 0;
 
     public HomeFragment(){
 
@@ -91,6 +90,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     * 发送首页列表数据请求
     * */
     private void requestRecommandData() {
+
         RequestCenter.requestRecommandData(new DisposeDataListener() {
             @Override
             public void onSuccess(Object responseObj) {
@@ -115,12 +115,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 *   请求成功执行的方法
 * */
     private void showSuccessView() {
+
 //        判断数据是否为空
         if(mRecommandData != null && mRecommandData.data.list.size()>0){
             mLoadingView.setVisibility(View.GONE);
             mListView.setVisibility(View.VISIBLE);
-//            创建我们的adapter
-//            mListView.addHeaderView(new HomeHeaderLayout(mContext, mRecommandData.data.head));
+//            为listView添加列表头
+            mListView.addHeaderView(new HomeHeaderLayout(mContext, mRecommandData.data.head));
+////             设置内容
             mAdapter = new CourseAdapter(mContext,mRecommandData.data.list);
             mListView.setAdapter(mAdapter);
 //            mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
