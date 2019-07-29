@@ -21,7 +21,7 @@ import com.example.mysdk.widget.VideoFullDialog.FullToSmallListener;
 
 /**
  * @author: qndroid
- * @function: 广告业务逻辑层
+ * @function: 广告业务逻辑层  使用到了 接口回调
  * @date: 16/6/20
  */
 public class VideoAdSlot implements ADVideoPlayerListener {
@@ -111,7 +111,11 @@ public class VideoAdSlot implements ADVideoPlayerListener {
         }
     }
 
+    /*
+    * 划入播放 划出暂停的功能
+    * */
     public void updateAdInScrollView() {
+//        获取当前视频框在屏幕中出现的百分比
         int currentArea = Utils.getVisiblePercent(mParentView);
         //小于0表示未出现在屏幕上，不做任何处理
         if (currentArea <= 0) {
@@ -121,18 +125,19 @@ public class VideoAdSlot implements ADVideoPlayerListener {
         if (Math.abs(currentArea - lastArea) >= 100) {
             return;
         }
+//        互动没有超过50%时走入case
         if (currentArea < SDKConstant.VIDEO_SCREEN_PERCENT) {
             //进入自动暂停状态
             if (canPause) {
                 pauseVideo(true);
-                canPause = false;
+                canPause = false;//滑动事件过滤
             }
             lastArea = 0;
             mVideoView.setIsComplete(false); // 滑动出50%后标记为从头开始播
             mVideoView.setIsRealPause(false); //以前叫setPauseButtonClick()
             return;
         }
-
+        //当视频真正进入暂停状态时候走此case
         if (isRealPause() || isComplete()) {
             //进入手动暂停或者播放结束，播放结束和不满足自动播放条件都作为手动暂停
             pauseVideo(false);
@@ -290,7 +295,9 @@ public class VideoAdSlot implements ADVideoPlayerListener {
             e.printStackTrace();
         }
     }
-
+    /*
+    *  播放到了第几秒
+    * */
     private int getPosition() {
         return mVideoView.getCurrentPosition() / SDKConstant.MILLION_UNIT;
     }

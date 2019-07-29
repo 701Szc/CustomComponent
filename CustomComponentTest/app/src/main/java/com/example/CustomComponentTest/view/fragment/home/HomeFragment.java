@@ -1,29 +1,39 @@
 package com.example.CustomComponentTest.view.fragment.home;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.CustomComponentTest.R;
 import com.example.CustomComponentTest.adapter.CourseAdapter;
+import com.example.CustomComponentTest.constant.Constant;
 import com.example.CustomComponentTest.module.recommand.BaseRecommandModel;
 import com.example.CustomComponentTest.network.http.RequestCenter;
 import com.example.CustomComponentTest.view.fragment.BaseFragment;
 import com.example.CustomComponentTest.view.home.HomeHeaderLayout;
+import com.example.CustomComponentTest.zxing.app.CaptureActivity;
+import com.example.mysdk.activity.AdBrowserActivity;
 import com.example.mysdk.okhttp.listener.DisposeDataListener;
 
 import static android.content.ContentValues.TAG;
 
+
 public class HomeFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+
+    private static final int REQUEST_QRCODE = 0x01;
 
     /*
     * UI
@@ -31,6 +41,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private View mContentView;
     private ListView mListView;
+    private TextView mQRCodeView;
     private TextView mCategoryView;
     private TextView mSearchView;
     private ImageView mLoadingView;
@@ -64,6 +75,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void initView() {
+        mQRCodeView = (TextView) mContentView.findViewById(R.id.qrcode_view);
+        mQRCodeView.setOnClickListener(this);
         mCategoryView = (TextView)mContentView.findViewById(R.id.category_view);
         mCategoryView.setOnClickListener(this);
         mSearchView = (TextView)mContentView.findViewById(R.id.search_view);
@@ -78,8 +91,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.qrcode_view:
+                if(hasPermission(Constant.HARDWEAR_CAMERA_PERMISSION)){
+                    doOpenCamera();
+                }else{
+                    requestPermission(Constant.HARDWEAR_CAMERA_CODE,Constant.HARDWEAR_CAMERA_PERMISSION);
+                }
+                break;
+        }
 
+    }
+
+    private void doOpenCamera() {
+        Intent intent = new Intent(mContext, CaptureActivity.class);
+        startActivityForResult(intent,REQUEST_QRCODE);
     }
 
     @Override
@@ -144,5 +171,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     * */
     private void showErrorView() {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode){
+            //扫码处理逻辑
+            case REQUEST_QRCODE:
+                if(resultCode == Activity.RESULT_OK){
+                    String code = data.getStringExtra("SCAN_RESULT");
+                        if(code.contains("http") || code.contains("https")){
+                            Intent intent = new Intent(mContext, AdBrowserActivity.class);
+                            intent.putExtra(AdBrowserActivity.KEY_URL, code);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(mContext,code,Toast.LENGTH_LONG).show();
+                        }
+                }
+                break;
+        }
     }
 }

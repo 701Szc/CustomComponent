@@ -6,6 +6,7 @@ import com.example.mysdk.okhttp.CommonOkHttpClient;
 import com.example.mysdk.okhttp.HttpConstant;
 import com.example.mysdk.okhttp.listener.DisposeDataHandle;
 import com.example.mysdk.okhttp.listener.DisposeDataListener;
+import com.example.mysdk.okhttp.listener.DisposeDownloadListener;
 import com.example.mysdk.okhttp.request.CommonRequest;
 import com.example.mysdk.okhttp.request.RequestParams;
 
@@ -27,5 +28,9 @@ public class RequestCenter {
 
     public static void requestRecommandData(DisposeDataListener listener){
         RequestCenter.postRequest(HttpConstans.HOME_RECOMMAND,null,listener, BaseRecommandModel.class);
+    }
+    public static void downloadFile(String url, String path, DisposeDownloadListener listener) {
+        CommonOkHttpClient.downloadFile(CommonRequest.createGetRequest(url, null),
+                new DisposeDataHandle(listener, path));
     }
 }

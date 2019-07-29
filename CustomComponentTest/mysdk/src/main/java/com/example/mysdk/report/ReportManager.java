@@ -65,6 +65,9 @@ public class ReportManager {
                     }
                     params.put("ve", String.valueOf(playTime));
                 }
+                /*
+                * 调用封装好的网络组件去发送检测请求
+                * */
                 CommonOkHttpClient.get(
                     CommonRequest.createMonitorRequest(monitor.url, params), handle);
             }

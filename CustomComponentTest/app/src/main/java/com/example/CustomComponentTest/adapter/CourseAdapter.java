@@ -1,6 +1,7 @@
 package com.example.CustomComponentTest.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +11,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.view.View.OnClickListener;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.CustomComponentTest.R;
 import com.example.CustomComponentTest.module.recommand.RecommandBodyValue;
+import com.example.CustomComponentTest.share.ShareDialog;
+import com.example.mysdk.activity.AdBrowserActivity;
 import com.example.mysdk.adutil.Utils;
+import com.example.mysdk.core.AdContextInterface;
+import com.example.mysdk.core.video.VideoAdContext;
 import com.example.mysdk.imageloader.ImageLoaderManager;
 
 import java.util.ArrayList;
 
+import cn.sharesdk.framework.Platform;
 import de.hdodenhof.circleimageview.CircleImageView;
 import com.example.CustomComponentTest.util.Util;
+import com.google.gson.Gson;
 
 
 public class CourseAdapter extends BaseAdapter {
@@ -39,6 +46,7 @@ public class CourseAdapter extends BaseAdapter {
 
     private Context mContext;
     private ViewHolder mViewHolder;
+    private VideoAdContext mAdsdkContext;
     private LayoutInflater mInflate;
 
     private ArrayList<RecommandBodyValue> mData;
@@ -79,10 +87,38 @@ public class CourseAdapter extends BaseAdapter {
         //1.获取数据的type类型
         int type = getItemViewType(position);
         final RecommandBodyValue value = (RecommandBodyValue)getItem(position);
-        Log.e("测试type", "type===="+type );
+        Log.e("taggggg","type===" +type);
 //        为空表明当前没有使用的缓存View
         if(convertView == null){
             switch (type){
+                case VIDOE_TYPE:
+                    //显示video卡片
+                    mViewHolder = new ViewHolder();
+                    convertView = mInflate.inflate(R.layout.item_video_layout,parent,false);
+                    mViewHolder.mVideoContentLayout = (RelativeLayout)convertView.findViewById(R.id.video_ad_layout);
+                    mViewHolder.mLogoView = (CircleImageView) convertView.findViewById(R.id.item_logo_view);
+                    mViewHolder.mTitleView = (TextView) convertView.findViewById(R.id.item_title_view);
+                    mViewHolder.mInfoView = (TextView) convertView.findViewById(R.id.item_info_view);
+                    mViewHolder.mFooterView = (TextView) convertView.findViewById(R.id.item_footer_view);
+                    mViewHolder.mShareView = (ImageView) convertView.findViewById(R.id.item_share_view);
+                    //为对应布局创建播放器
+                    mAdsdkContext = new VideoAdContext(mViewHolder.mVideoContentLayout,new Gson().toJson(value),null);
+                    mAdsdkContext.setAdResultListener(new AdContextInterface() {
+                        @Override
+                        public void onAdSuccess() {
+                        }
+                        @Override
+                        public void onAdFailed() {
+                        }
+                        @Override
+                        public void onClickVideo(String url) {
+                            Intent intent = new Intent(mContext, AdBrowserActivity.class);
+                            intent.putExtra(AdBrowserActivity.KEY_URL,url);
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    break;
+
 //                一张图片
                 case CARD_SIGNAL_PIC:
                     mViewHolder = new ViewHolder();
@@ -133,6 +169,26 @@ public class CourseAdapter extends BaseAdapter {
         }
 //      开始绑定数据
         switch(type){
+            case VIDOE_TYPE:
+                mImagerLoader.displayImage(mViewHolder.mLogoView, value.logo);
+                mViewHolder.mTitleView.setText(value.title);
+                mViewHolder.mInfoView.setText(value.info.concat(mContext.getString(R.string.tian_qian)));
+                mViewHolder.mFooterView.setText(value.text);
+                mViewHolder.mShareView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShareDialog dialog = new ShareDialog(mContext, false);
+                        dialog.setShareType(Platform.SHARE_VIDEO);
+                        dialog.setShareTitle(value.title);
+                        dialog.setShareTitleUrl(value.site);
+                        dialog.setShareText(value.text);
+                        dialog.setShareSite(value.title);
+                        dialog.setShareTitle(value.site);
+                        dialog.setUrl(value.resource);
+                        dialog.show();
+                    }
+                });
+                break;
             case CARD_SIGNAL_PIC:
                 /*
                  * 为ImageView完成图片的加载
@@ -169,6 +225,13 @@ public class CourseAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    //自动播放方法
+    public void updateAdInScrollView() {
+        if (mAdsdkContext != null) {
+            mAdsdkContext.updateAdInScrollView();
+        }
     }
 
     @Override
