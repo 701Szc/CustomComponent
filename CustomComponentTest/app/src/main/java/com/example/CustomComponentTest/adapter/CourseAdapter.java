@@ -87,7 +87,6 @@ public class CourseAdapter extends BaseAdapter {
         //1.获取数据的type类型
         int type = getItemViewType(position);
         final RecommandBodyValue value = (RecommandBodyValue)getItem(position);
-        Log.e("taggggg","type===" +type);
 //        为空表明当前没有使用的缓存View
         if(convertView == null){
             switch (type){
@@ -119,7 +118,7 @@ public class CourseAdapter extends BaseAdapter {
                     });
                     break;
 
-//                一张图片
+//              多张图片
                 case CARD_SIGNAL_PIC:
                     mViewHolder = new ViewHolder();
                     convertView = mInflate.inflate(R.layout.item_product_card_one_layout, parent, false);
@@ -132,7 +131,7 @@ public class CourseAdapter extends BaseAdapter {
                     mViewHolder.mZanView = (TextView) convertView.findViewById(R.id.item_zan_view);
                     mViewHolder.mProductLayout = (LinearLayout) convertView.findViewById(R.id.product_photo_layout);
                     break;
-//               多张图片
+//               一张图片
                 case CARD_MULTI_PIC:
                     mViewHolder = new ViewHolder();
                     convertView = mInflate.inflate(R.layout.item_product_card_two_layout, parent, false);

@@ -31,7 +31,7 @@
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
-                <com.youdu.view.associatemail.MailBoxAssociateView
+                <EditText
                     android:id="@+id/associate_email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

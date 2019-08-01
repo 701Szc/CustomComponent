@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.CustomComponentTest.R;
+import com.example.CustomComponentTest.activity.PhotoViewActivity;
 import com.example.CustomComponentTest.adapter.CourseAdapter;
 import com.example.CustomComponentTest.constant.Constant;
 import com.example.CustomComponentTest.module.recommand.BaseRecommandModel;
+import com.example.CustomComponentTest.module.recommand.RecommandBodyValue;
 import com.example.CustomComponentTest.network.http.RequestCenter;
 import com.example.CustomComponentTest.view.fragment.BaseFragment;
 import com.example.CustomComponentTest.view.home.HomeHeaderLayout;
@@ -109,10 +112,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         startActivityForResult(intent,REQUEST_QRCODE);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-    }
     /*
     * 发送首页列表数据请求
     * */
@@ -152,16 +152,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 ////             设置内容
             mAdapter = new CourseAdapter(mContext,mRecommandData.data.list);
             mListView.setAdapter(mAdapter);
-//            mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//                @Override
-//                public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                }
-//
-//                @Override
-//                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                    mAdapter.updateAdInScrollView();
-//                }
-//            });
+            mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    mAdapter.updateAdInScrollView();
+                }
+            });
         }else{
             showErrorView();
         }
@@ -189,6 +189,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         }
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        RecommandBodyValue value = (RecommandBodyValue) mAdapter.getItem(i - mListView.getHeaderViewsCount());
+        if (value.type != 0) {
+            Intent intent = new Intent(mContext, PhotoViewActivity.class);
+            intent.putStringArrayListExtra(PhotoViewActivity.PHOTO_LIST, value.url);
+            startActivity(intent);
         }
     }
 }

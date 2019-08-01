@@ -1,9 +1,11 @@
 package com.example.CustomComponentTest.network.http;
 
+import com.example.CustomComponentTest.module.course.BaseCourseModel;
 import com.example.CustomComponentTest.module.recommand.BaseRecommandModel;
+import com.example.CustomComponentTest.module.update.UpdateModel;
+import com.example.CustomComponentTest.module.user.User;
 import com.example.mysdk.okhttp.CommonOkHttpClient;
 
-import com.example.mysdk.okhttp.HttpConstant;
 import com.example.mysdk.okhttp.listener.DisposeDataHandle;
 import com.example.mysdk.okhttp.listener.DisposeDataListener;
 import com.example.mysdk.okhttp.listener.DisposeDownloadListener;
@@ -33,4 +35,38 @@ public class RequestCenter {
         CommonOkHttpClient.downloadFile(CommonRequest.createGetRequest(url, null),
                 new DisposeDataHandle(listener, path));
     }
+
+    /**
+     * 应用版本号请求
+     *
+     * @param listener
+     */
+    public static void checkVersion(DisposeDataListener listener) {
+        RequestCenter.postRequest(HttpConstans.CHECK_UPDATE, null, listener, UpdateModel.class);
+    }
+    /**
+     * 用户登陆请求
+     *
+     * @param listener
+     * @param userName
+     * @param passwd
+     */
+    public static void login(String userName, String passwd, DisposeDataListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.put("mb", userName);
+        params.put("pwd", passwd);
+        RequestCenter.postRequest(HttpConstants.LOGIN, params, listener, User.class);
+    }
+    /**
+     * 请求课程详情
+     *
+     * @param listener
+     */
+    public static void requestCourseDetail(String courseId, DisposeDataListener listener) {
+        RequestParams params = new RequestParams();
+        params.put("courseId", courseId);
+        RequestCenter.postRequest(HttpConstants.COURSE_DETAIL, params, listener, BaseCourseModel.class);
+    }
+
 }

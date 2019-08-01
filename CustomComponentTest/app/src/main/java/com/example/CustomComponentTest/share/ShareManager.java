@@ -21,7 +21,7 @@ public class ShareManager {
     /**
      * 要分享到的平台
      */
-    private Platform mCurrentPlatform;
+    private Platform mCurrentPlatform;//当前平台类型
 
     /**
      * 线程安全的单例模式
@@ -49,29 +49,31 @@ public class ShareManager {
         ShareSDK.initSDK(context);
     }
 
+
     /**
      * 分享数据到不同平台
      */
-    public void shareData(ShareData shareData, PlatformActionListener listener) {
-        switch (shareData.mPlatformType) {
-            case QQ:
-                mCurrentPlatform = ShareSDK.getPlatform(QQ.NAME);
-                break;
-            case QZone:
-                mCurrentPlatform = ShareSDK.getPlatform(QZone.NAME);
-                break;
-            case WeChat:
-                mCurrentPlatform = ShareSDK.getPlatform(Wechat.NAME);
-                break;
-            case WechatMoments:
-                mCurrentPlatform = ShareSDK.getPlatform(WechatMoments.NAME);
-                break;
-            default:
-                break;
-        }
-        mCurrentPlatform.setPlatformActionListener(listener); //由应用层去处理回调,分享平台不关心。
-        mCurrentPlatform.share(shareData.mShareParams);
-    }
+   public void shareData(ShareData data,PlatformActionListener listener){
+       switch(data.mPlatformType){
+           case QQ:
+               mCurrentPlatform = ShareSDK.getPlatform(QQ.NAME);
+               break;
+
+           case QZone:
+               mCurrentPlatform = ShareSDK.getPlatform(QZone.NAME);
+               break;
+
+           case WeChat:
+               mCurrentPlatform = ShareSDK.getPlatform(Wechat.NAME);
+               break;
+
+           case WechatMoments:
+               mCurrentPlatform = ShareSDK.getPlatform(WechatMoments.NAME);
+               break;
+       }
+        mCurrentPlatform.setPlatformActionListener(listener);
+       mCurrentPlatform.share(data.mShareParams);
+   }
 
     /**
      * 第三方用户授权信息获取
@@ -86,7 +88,7 @@ public class ShareManager {
      * @param type     第三方类型
      * @param listener 事件回调处理
      */
-    public void getUserMsg(PlatofrmType type, PlatformActionListener listener) {
+    public void getUserMsg(PlatformType type, PlatformActionListener listener) {
         switch (type) {
             case QQ:
             case QZone:
@@ -119,7 +121,7 @@ public class ShareManager {
     /**
      * @author 应用程序需要的平台
      */
-    public enum PlatofrmType {
+    public enum PlatformType {
         QQ, QZone, WeChat, WechatMoments;
     }
 }

@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.CustomComponentTest.activity.CourseDetailActivity;
 import com.example.CustomComponentTest.util.ImageLoaderManager;
 
 import java.util.ArrayList;
+
+import uk.co.senab.photoview.PhotoView;
 
 public class PhotoPagerAdapter extends PagerAdapter {
 
@@ -45,25 +48,28 @@ public class PhotoPagerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
+//    构建ViewPager的每一项
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         ImageView photoView = new ImageView(mContext);
         photoView.setScaleType(ImageView.ScaleType.FIT_XY);
-//        if(mIsMatch){
-//            photoView = new ImageView(mContext);
-//            photoView.setScaleType(ImageView.ScaleType.FIT_XY);
-//            photoView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-////                    Intent intent = new Intent(mContext,
-////                            CourseDetailActivity.class);
-////                    mContext.startActivity(intent);
-//                }
-//            });
-//        }else{
-//            photoView = new PhotoView(mContext);
-//        }
+        if(mIsMatch){
+            photoView = new ImageView(mContext);
+            photoView.setScaleType(ImageView.ScaleType.FIT_XY);
+            photoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext,
+                            CourseDetailActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
+        }else{
+            photoView = new PhotoView(mContext);
+        }
+        //为我们的ViewPager添加Adapter
         mLoader.displayImage(photoView,mData.get(position));
         container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return photoView;

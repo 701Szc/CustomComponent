@@ -22,7 +22,7 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/icon_share"
     />
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/photo_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

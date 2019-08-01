@@ -138,16 +138,16 @@ public class ShareDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.weixin_layout:
-                shareData(ShareManager.PlatofrmType.WeChat);
+                shareData(ShareManager.PlatformType.WeChat);
                 break;
             case R.id.moment_layout:
-                shareData(ShareManager.PlatofrmType.WechatMoments);
+                shareData(ShareManager.PlatformType.WechatMoments);
                 break;
             case R.id.qq_layout:
-                shareData(ShareManager.PlatofrmType.QQ);
+                shareData(ShareManager.PlatformType.QQ);
                 break;
             case R.id.qzone_layout:
-                shareData(ShareManager.PlatofrmType.QZone);
+                shareData(ShareManager.PlatformType.QZone);
                 break;
             case R.id.cancel_view:
                 dismiss();
@@ -181,7 +181,9 @@ public class ShareDialog extends Dialog implements View.OnClickListener {
                 break;
         }
     }
-
+    /*
+    * 分享结果 时间监听
+    * */
     private PlatformActionListener mListener = new PlatformActionListener() {
         @Override
         public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
@@ -196,7 +198,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener {
         }
     };
 
-    private void shareData(ShareManager.PlatofrmType platofrm) {
+    private void shareData(ShareManager.PlatformType platofrm) {
         ShareData mData = new ShareData();
         Platform.ShareParams params = new Platform.ShareParams();
         params.setShareType(mShareType);

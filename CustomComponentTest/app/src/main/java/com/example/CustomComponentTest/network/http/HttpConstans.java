@@ -9,4 +9,8 @@ public class HttpConstans {
     * 首页产品请求接口
     * */
     public static String HOME_RECOMMAND = ROOT_URL + "/product/home_recommand.php";
+    /**
+     * 检查更新接口
+     */
+    public static String CHECK_UPDATE = ROOT_URL + "/config/check_update.php";
 }
