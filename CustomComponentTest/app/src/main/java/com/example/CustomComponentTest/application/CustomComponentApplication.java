@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.CustomComponentTest.share.ShareManager;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 
 
@@ -22,6 +23,7 @@ public class CustomComponentApplication extends Application {
         super.onCreate();
         mApplication = this;
         initShareSDK();
+        initJPush();
     }
 
     public static CustomComponentApplication getInstance(){
@@ -30,6 +32,12 @@ public class CustomComponentApplication extends Application {
     //初始化我们的share SDK
     public void initShareSDK(){
         ShareManager.initSDK(this);
+    }
+
+    //初始化极光推送
+    public void initJPush(){
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 }
 

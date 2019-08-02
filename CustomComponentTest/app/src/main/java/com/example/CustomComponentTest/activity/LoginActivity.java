@@ -17,8 +17,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.CustomComponentTest.R;
 import com.example.CustomComponentTest.activity.base.BaseActivity;
+import com.example.CustomComponentTest.jpush.PushMessageActivity;
 import com.example.CustomComponentTest.manager.DialogManager;
 import com.example.CustomComponentTest.manager.UserManager;
+import com.example.CustomComponentTest.module.PushMessage;
 import com.example.CustomComponentTest.module.user.User;
 import com.example.CustomComponentTest.module.user.UserContent;
 import com.example.CustomComponentTest.network.http.RequestCenter;
@@ -45,14 +47,27 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView mLoginView;
     private ImageView mQQLoginView; //用来实现QQ登陆
 
+    /*
+    * data
+    * */
+    private PushMessage pushMessage;
+    private boolean fromPush;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
+        initData();
         initView();
     }
 
+    private void initData() {
+        Intent intent  = getIntent();
+        if(intent.hasExtra("pushMessage")){
+            pushMessage = (PushMessage) intent.getSerializableExtra("pushMessage");
+        }
+        fromPush = (boolean) intent.getBooleanExtra("fromPush",false);
+    }
 
 
     private void initView() {
@@ -96,6 +111,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 UserManager.getInstance().setUser(user);//通过UserManager来管理用户信息
                 //发送我们的登录广播
                 sendLoginBroadcast();
+
+                //从推送过来的
+                if(fromPush){
+                    Intent intent = new Intent(LoginActivity.this, PushMessageActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("pushMessage",pushMessage);
+                    startActivity(intent);
+                }
+
                 //销毁当前页面  返回我的
                 finish();
             }
@@ -110,5 +134,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void sendLoginBroadcast(){
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(LOGIN_ACTION));
     }
+
+
 
 }
