@@ -1,5 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ImoocBusiness</string>
+    <string name="hello">Hello World, JPush!</string>
+    <string name="tag_hint">Tag can be number, alphabet, underscore, Chinese. Use , to split many tags.</string>
+    <string name="alias_hint">Alias can be number, alphabet, underscore, Chinese.</string>
+    <string name="mobilenumber_hint">The phone number can only start with a "+" or a number,other can only contain "-" and Numbers</string>
+    <string name="style_hint">style should be number</string>
+    <string name="error_style_empty">style cannot be empty</string>
+    <string name="error_alias_empty">alias cannot be empty</string>
+    <string name="error_tag_empty">tag cannot be empty</string>
+    <string name="error_tag_gs_empty">Invalid format</string>
+    <string name="mobilenumber_empty_guide">will clear last set phone number</string>
+    <string name="error_network">Failed to init due to network exception.</string>
+    <string name="logining">Running in background. Please see log.</string>
+    <string name="setting_su">Succeed to set</string>
+    <string name="app_name">CustomComponentTest</string>
     <string name="app_id">57c432ae</string>
 
     <string name="hello_world">Hello world!</string>
@@ -137,7 +151,7 @@
     <string name="msg_nonfc">No NFC hardware found, Program will NOT work.</string>
     <string name="msg_nfcdisabled">NFC hardware has been disabled, Please enable it first. (using the \'Setting\' button to turn it on or off)</string>
     <string name="msg_nocard">No Card been read, Please take the card near to the back cover of phone and try again</string>
-	<string name="msg_copied">Card information has been copied to clipboard
+    <string name="msg_copied">Card information has been copied to clipboard
 	</string>
     <string name="lab_id">ID:</string>
     <string name="lab_pmm">PMm:</string>
@@ -171,7 +185,7 @@
     <string name="name_lib_readercard">Reader\'s Card</string>
     <string name="name_lib_booktag">Book\'s eTag</string>
 
-	<string name="info_help">
+    <string name="info_help">
 	<![CDATA[
 	<div>Make sure that the NFC sensor is enaled before read card. You can click \'setting\' button to open system configure dialog to confirm.</div>
 	<div>When reading card, please take your card close to NFC sensor of phone (normally, it is at back cover of the phone) and hold a few seconds so that program can read data out.</div><p />
@@ -180,7 +194,7 @@
 	]]>
 	</string>
 
-	<string name="info_about">
+    <string name="info_about">
 	<![CDATA[
 	<div><img src="icon_main,16,16" /><big>&nbsp;NFCard&nbsp;</big><version>v</version></div><p />
 	<div>NFCard can read contactless IC card use NFC sensor.</div>

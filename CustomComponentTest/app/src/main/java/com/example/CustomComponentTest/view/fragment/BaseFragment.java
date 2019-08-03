@@ -37,43 +37,6 @@ public class BaseFragment extends Fragment {
         super.onPause();
     }
 
-    /*
-    * 申请权限
-    * */
-    public void requestPermission(int code, String... permissions){
-        if(Build.VERSION.SDK_INT >= 23){
-            requestPermissions(permissions,code);
-        }
-    }
-    /*
-    * 判断是否有指定权限
-    * */
-    public boolean hasPermission(String... permissions){
-        for(String permission : permissions){
-            if(ContextCompat.checkSelfPermission(getActivity(),permission) != PackageManager.PERMISSION_GRANTED){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode){
-            case Constant.HARDWEAR_CAMERA_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    doOpenCamera();
-                }
-                break;
-
-            case Constant.WRITE_READ_EXTERNAL_CODE:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    doWriteSDCard();
-                }
-                break;
-        }
-    }
-
     private void doOpenCamera() {
 
     }
@@ -81,6 +44,44 @@ public class BaseFragment extends Fragment {
 
     }
 
+    /*
+    * 是否拥有指定权限
+    * */
+
+    public boolean hasPermission(String... permissions){
+        for(String permission: permissions){
+            if(ContextCompat.checkSelfPermission(getActivity(),permission) != PackageManager.PERMISSION_GRANTED){
+                return false;
+            }
+        }
+        return true;
+    }
+    /*
+    * 申请权限
+    * */
+    public void requestPermission(int code,String... permissions){
+        if(Build.VERSION.SDK_INT >= 23){
+            requestPermissions(permissions,code);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Constant.HARDWEAR_CAMERA_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doOpenCamera();
+                }
+                break;
+            case Constant.WRITE_READ_EXTERNAL_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doWriteSDCard();
+                }
+                break;
+        }
+    }
 
 }
 

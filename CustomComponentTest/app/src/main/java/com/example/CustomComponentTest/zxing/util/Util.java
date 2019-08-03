@@ -12,7 +12,6 @@ import android.view.Display;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.CustomComponentTest.Manifest;
 
 public class Util {
 

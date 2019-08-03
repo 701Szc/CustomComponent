@@ -18,6 +18,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.CustomComponentTest.R;
 import com.example.CustomComponentTest.activity.LoginActivity;
 import com.example.CustomComponentTest.activity.SettingActivity;
+import com.example.CustomComponentTest.constant.Constant;
 import com.example.CustomComponentTest.manager.UserManager;
 import com.example.CustomComponentTest.module.update.UpdateModel;
 import com.example.CustomComponentTest.network.http.RequestCenter;
@@ -134,7 +135,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
 
             case R.id.update_view:
-                checkVersion();
+                if(hasPermission(Constant.WRITE_READ_EXTERNAL_PERMISSION)){
+                    checkVersion();
+                }else{
+                    requestPermission(Constant.WRITE_READ_EXTERNAL_CODE,Constant.WRITE_READ_EXTERNAL_PERMISSION);
+                }
                 break;
 
             case R.id.login_layout:
@@ -228,6 +233,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-
-
+    @Override
+    public void doWriteSDCard() {
+        checkVersion();
+    }
 }

@@ -3,6 +3,7 @@ package com.example.CustomComponentTest.application;
 import android.app.Application;
 
 import com.example.CustomComponentTest.share.ShareManager;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
@@ -24,6 +25,7 @@ public class CustomComponentApplication extends Application {
         mApplication = this;
         initShareSDK();
         initJPush();
+        initUMeng();
     }
 
     public static CustomComponentApplication getInstance(){
@@ -38,6 +40,11 @@ public class CustomComponentApplication extends Application {
     public void initJPush(){
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+    }
+
+    public void initUMeng(){
+        MobclickAgent.setDebugMode(true);
+        MobclickAgent.openActivityDurationTrack(false);
     }
 }
 

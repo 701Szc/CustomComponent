@@ -34,7 +34,6 @@ public class JPushReceiver extends BroadcastReceiver {
         if(intent.getAction().equals(JPushInterface.ACTION_NOTIFICATION_RECEIVED)){
         //不需要跳转
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-            Log.d(TAG, "[JPushReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         }else if(intent.getAction().equals(JPushInterface.ACTION_NOTIFICATION_OPENED)){
         //需要跳转的action
         /**
